@@ -21,7 +21,6 @@ class ContactFormMail extends Mailable
     public function build()
     {
         $data = $this->data;
-        logger('debug', [$data]);
         return $this->from($data['email'])
                     ->subject('お問い合わせフォームから送信')
                     ->view('emails.contact-form', compact('data'));
