@@ -52,6 +52,7 @@ return [
             'driver' => 'stack',
             'channels' => ['single'],
             'ignore_exceptions' => false,
+            'permission' => 0664,
         ],
 
         'single' => [

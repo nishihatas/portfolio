@@ -12,13 +12,13 @@ class FormController extends Controller
         $data = $request->validate([
             'name' => 'required',
             'email' => 'required|email',
-            'subject' => 'required|email',
+            'subject' => 'required',
             'message' => 'required',
         ]);
 
-        Mail::to('sho248t@gmail.com')->send(new ContactFormMail($data));
+        Mail::to('nishihata@infinity-oo.com')->send(new ContactFormMail($data));
 
-        return redirect('/')->with('success', 'メールが送信されました。');
+        return response()->json(['success' => true]);
 
     }
 }

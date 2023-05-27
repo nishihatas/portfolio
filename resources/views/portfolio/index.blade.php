@@ -26,6 +26,9 @@
   <!-- Template Main CSS File -->
   <link href="assets/css/style.css" rel="stylesheet">
 
+  <!-- Laravel Mix -->
+  <link href="css/app.css" rel="stylesheet">
+
   <!-- Custom CSS File -->
   <link href="assets/css/custom_style.css" rel="stylesheet">
 
@@ -323,7 +326,7 @@
           </div>
 
           <div class="col-lg-6">
-            {!! Form::open(['url' => 'send_email', 'role' => 'form']) !!}
+            {!! Form::open(['url' => 'send_email', 'role' => 'form', 'id' => 'contact-form']) !!}
             <div class="row">
               <div class="col-md-6 form-group">
                 <input type="text" name="name" class="form-control" id="name" placeholder="お名前" required>
@@ -339,14 +342,10 @@
               <textarea class="form-control" name="message" rows="6" placeholder="メッセージ" required></textarea>
             </div>
             <div class="my-3">
-              <div class="loading">Loading</div>
-              <div class="error-message"></div>
-              @if (session('success'))
-              <div class="sent-message">{{ session('success') }}</div>
-              @endif
-              {{-- <div class="sent-message">メッセージを頂きありがとうございます！</div> --}}
+              <div id="message"></div>
             </div>
             <div class="text-center"><button type="submit">メッセージ送信</button></div>
+           
             {!! Form::close() !!}
             <!-- <form action="forms/contact.php" method="post" role="form" class="php-email-form">
               <div class="row">
@@ -393,6 +392,37 @@
 
   <!-- Template Main JS File -->
   <script src="assets/js/main.js"></script>
+
+  <!-- Laravel Mix -->
+  <script src="js/app.js"></script>
+
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <script>
+    $(document).ready(function() {
+        $('#contact-form').submit(function(e) {
+            e.preventDefault(); // フォームの通常の送信をキャンセル
+    
+            var form = $(this);
+            var url = form.attr('action');
+            var messageDiv = $('#message');
+    
+            messageDiv.text('メール送信中...'); // 送信中のメッセージを表示
+    
+            $.ajax({
+                type: 'POST',
+                url: url,
+                data: form.serialize(),
+                success: function(response) {
+                    messageDiv.text('メッセージを頂きありがとうございます！'); // 送信完了のメッセージを表示
+                    form[0].reset(); // フォームをリセット
+                },
+                error: function(xhr, status, error) {
+                    messageDiv.text('送信エラーが発生しました'); // 送信エラーのメッセージを表示
+                }
+            });
+        });
+    });
+    </script>
 
 </body>
 

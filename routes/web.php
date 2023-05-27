@@ -22,7 +22,4 @@ Route::get('/', function () {
 // ポートフォリオ：メール投稿
 Route::post('/send_email', [Controllers\FormController::class, 'sendEmail'])->name('sendEmail');
 
-// Auth::routes();
-
-// Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
