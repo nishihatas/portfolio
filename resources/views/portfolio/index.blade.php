@@ -326,7 +326,7 @@
           </div>
 
           <div class="col-lg-6">
-            {!! Form::open(['url' => 'send_email', 'role' => 'form', 'id' => 'contact-form']) !!}
+            {!! Form::open(['url' => 'send_email', 'role' => 'form', 'id' => 'contact-form', 'class' => 'php-email-form']) !!}
             <div class="row">
               <div class="col-md-6 form-group">
                 <input type="text" name="name" class="form-control" id="name" placeholder="お名前" required>
@@ -342,33 +342,12 @@
               <textarea class="form-control" name="message" rows="6" placeholder="メッセージ" required></textarea>
             </div>
             <div class="my-3">
+              <div class="loading">送信中...</div>
               <div id="message"></div>
             </div>
             <div class="text-center"><button type="submit">メッセージ送信</button></div>
            
             {!! Form::close() !!}
-            <!-- <form action="forms/contact.php" method="post" role="form" class="php-email-form">
-              <div class="row">
-                <div class="col-md-6 form-group">
-                  <input type="text" name="name" class="form-control" id="name" placeholder="お名前" required>
-                </div>
-                <div class="col-md-6 form-group mt-3 mt-md-0">
-                  <input type="email" class="form-control" name="email" id="email" placeholder="Email" required>
-                </div>
-              </div>
-              <div class="form-group mt-3">
-                <input type="text" class="form-control" name="subject" id="subject" placeholder="件名" required>
-              </div>
-              <div class="form-group mt-3">
-                <textarea class="form-control" name="message" rows="6" placeholder="メッセージ" required></textarea>
-              </div>
-              <div class="my-3">
-                <div class="loading">Loading</div>
-                <div class="error-message"></div>
-                <div class="sent-message">メッセージを頂きありがとうございます！</div>
-              </div>
-              <div class="text-center"><button type="submit">メッセージ送信</button></div>
-            </form> -->
           </div>
 
         </div>
@@ -406,17 +385,17 @@
             var url = form.attr('action');
             var messageDiv = $('#message');
     
-            messageDiv.text('メール送信中...'); // 送信中のメッセージを表示
-    
             $.ajax({
                 type: 'POST',
                 url: url,
                 data: form.serialize(),
                 success: function(response) {
+                    $('.loading').remove();
                     messageDiv.text('メッセージを頂きありがとうございます！'); // 送信完了のメッセージを表示
                     form[0].reset(); // フォームをリセット
                 },
                 error: function(xhr, status, error) {
+                    $('.loading').remove();
                     messageDiv.text('送信エラーが発生しました'); // 送信エラーのメッセージを表示
                 }
             });
